@@ -5,18 +5,71 @@
     "foldingStopMarker" : "^\\s*/(?:end|END)\\b",
     "patterns": [
         {
-            "include": "#keywords"
-        },
-        {
-            "include": "#strings"
+            "include": "#rootlevel"
         }
     ],
     "repository": {
-        "keywords": {
+        "rootlevel": {
             "patterns": [
                 {
-                    "begin": "(/begin|BEGIN)\\s*([A-Z_]*)\\b",
-                    "end": "(/end|END)\\s*([A-Z_]*)\\b",
+                    "match": "(ASAP2_VERSION) (\\d* \\d*)",
+                    "captures": {
+                        "1" : { "name": "keyword.other" },
+                        "2" : { "name": "constant.numeric" }
+                    }
+                },
+                {
+                    "match": "(A2ML_VERSION) (\\d* \\d*)",
+                    "captures": {
+                        "1" : { "name": "keyword.other" },
+                        "2" : { "name": "constant.numeric" }
+                    }
+                },
+                {
+                    "begin": "(/begin|BEGIN)\\s*(PROJECT)\\b",
+                    "end": "(/end|END)\\s*(PROJECT)\\b",
+                    "beginCaptures": {
+                        "1": {"name": "keyword.control.a2l"},
+                        "2": {"name": "emphasis"}
+                    },
+                    "endCaptures": {
+                        "1": {"name": "keyword.control.a2l"},
+                        "2": {"name": "emphasis"}
+                    },
+                    "patterns": [
+                        {
+                            "include": "#toplevel"
+                        }
+                    ]
+                }
+            ]
+        },
+        "toplevel": {
+            "patterns": [
+                {
+                    "begin": "(/begin|BEGIN)\\s*(MODULE|HEADER)\\b",
+                    "end": "(/end|END)\\s*(MODULE|HEADER)\\b",
+                    "beginCaptures": {
+                        "1": {"name": "keyword.control.a2l"},
+                        "2": {"name": "emphasis"}
+                    },
+                    "endCaptures": {
+                        "1": {"name": "keyword.control.a2l"},
+                        "2": {"name": "emphasis"}
+                    },
+                    "patterns": [
+                        {
+                            "include": "#primary"
+                        }
+                    ]
+                }
+            ]
+        },
+        "primary": {
+            "patterns": [
+                {
+                    "begin": "(/begin|BEGIN)\\s*(A2ML|AXIS_PTS|BLOB|CHARACTERISTIC|COMPU_METHOD|COMPU_TAB|COMPU_VTAB|RANGE|FRAME|FUNCTION|GROUP|IF_DATA|INSTANCE|MEASUREMENT|MOD_COMMON|MOD_PAR|RECORD_LAYOUT|TRANSFORMER|UNIT|USER_RIGHTS|VARIANT_CODING)\\b",
+                    "end": "(/end|END)\\s*(A2ML|AXIS_PTS|BLOB|CHARACTERISTIC|COMPU_METHOD|COMPU_TAB|COMPU_VTAB|RANGE|FRAME|FUNCTION|GROUP|IF_DATA|INSTANCE|MEASUREMENT|MOD_COMMON|MOD_PAR|RECORD_LAYOUT|TRANSFORMER|UNIT|USER_RIGHTS|VARIANT_CODING)\\b",
                     "beginCaptures": {
                         "1": {"name": "keyword.control.a2l"},
                         "2": {"name": "emphasis"}
@@ -31,38 +84,54 @@
                             "match": "UBYTE|UWORD|ULONG|A_UINT64|SBYTE|SWORD|SLONG|A_INT64|FLOAT32_IEEE|FLOAT64_IEEE"
                         },
                         {
-                            "match": "(FORMAT) (\".*\")",
-                            "captures": {
-                                "1" : { "name": "keyword.other" },
-                                "2" : { "name": "string" }
-                            }
+                            "include": "#strings"
                         },
                         {
-                            "match": "(ECU_ADDRESS) ([\\dxXoOa-fA-F]*)",
-                            "captures": {
-                                "1" : { "name": "keyword.other" },
-                                "2" : { "name": "constant.numeric" }
-                            }
+                            "name": "keyword.other",
+                            "match": "VIRTUAL|VERSION|VAR_SEPERATOR|VAR_NAMING|VAR_MEASUREMENT|VAR_CRITERION|VAR_CHARACTERISTIC|VAR_ADDRESS|USER|UNIT_CONVERSION|SYSTEM_CONSTANT|SYMBOL_LINK|SUPPLIER|SUB_GROUP|SUB_FUNCTION|STEP_SIZE|STATUS_STRING_REF|SI_EXPONENTS|SIGN_EXTEND|SEGMENT|ROOT|RIGHT_SHIFT|RESERVED|REF_UNIT|REF_MEASUREMENT|REF_GROUP|REF_CHARACTERISTIC|READ_WRITE|READ_ONLY|QUANTITY|PROJECT_NO|PHYS_UNIT|PHONE_NO|OUT_MEASUREMENT|OFFSET|NUMERIC|NUMBER|NO_RESCALE_X|NO_OF_INTERFACES|MONOTONY|METHOD|MEMORY_SEGMENT|MEMORY_LAYOUT|MEASUREMENT|MAX_REFRESH|MAX_GRAD|MATRIX_DIM|MAP_LIST|LOC_MEASUREMENT|LEFT_SHIFT|LAYOUT|IN_MEASUREMENT|IF_DATA|IEEE|IDENTIFICATION|HANDLE_TEXT|GUARD_RAILS|FUNCTION_VERSION|FUNCTION_LIST|FORMULA_INV|FORMULA|FORMAT|FNC_VALUES|FIX_AXIS_PAR_LIST|FIX_AXIS_PAR_DIST|FIX_AXIS_PAR|EXTENSION|EXTENDED_LIMITS|ERROR_MASK|EPK|ECU_ADDRESS|ECU|DISPLAY_IDENTIFIER|DISCRETE|DEPOSIT|DEF_CHARACTERISTIC|DEFAULT_VALUE|DATA_SIZE|CUSTOMER_NO|CUSTOMER|CURVE_AXIS_REF|CPU_TYPE|COMPU_TAB_REF|COMB|COEFFS_LINEAR|COEFFS|CHARACTERISTIC|CALIBRATION_HANDLE|CALIBRATION_ACCESS|BYTE_ORDER|BIT_OPERATION|BIT_MASK|AXIS_RESCALE_X|AXIS_PTS_REF|AXIS_DESCR|ARRAY_SIZE|ANNOTATION_TEXT|ANNOTATION_ORIGIN|ANNOTATION_LABEL|ANNOTATION|ALIGNMENT_WORD|ALIGNMENT_LONG|ALIGNMENT_INT64|ALIGNMENT_BYTE|ADDR_EPK"
                         },
                         {
-                            "match": "(MATRIX_DIM) (\\d* \\d* \\d*)",
-                            "captures": {
-                                "1" : { "name": "keyword.other" },
-                                "2" : { "name": "constant.numeric" }
-                            }
+                            "name": "constant.numeric",
+                            "match": "\\b0[xX][\\da-fA-F]+\\b"
                         },
                         {
-                            "match": "(ARRAY_SIZE) (\\d*)",
-                            "captures": {
-                                "1" : { "name": "keyword.other" },
-                                "2" : { "name": "constant.numeric" }
-                            }
+                            "include": "#other"
+                        }
+                    ]
+                }
+            ]
+        },
+        "other": {
+            "patterns": [
+                {
+                    "begin": "(/begin|BEGIN)\\s*([a-zA-Z_\\d]+)\\b",
+                    "end": "(/end|END)\\s*([a-zA-Z_\\d]+)\\b",
+                    "beginCaptures": {
+                        "1": {"name": "keyword.control.a2l"},
+                        "2": {"name": "emphasis"}
+                    },
+                    "endCaptures": {
+                        "1": {"name": "keyword.control.a2l"},
+                        "2": {"name": "emphasis"}
+                    },
+                    "patterns": [
+                        {
+                            "name": "storage.type",
+                            "match": "UBYTE|UWORD|ULONG|A_UINT64|SBYTE|SWORD|SLONG|A_INT64|FLOAT32_IEEE|FLOAT64_IEEE"
                         },
                         {
                             "include": "#strings"
                         },
                         {
-                            "include": "#keywords"
+                            "name": "keyword.other",
+                            "match": "VIRTUAL|VERSION|VAR_SEPERATOR|VAR_NAMING|VAR_MEASUREMENT|VAR_CRITERION|VAR_CHARACTERISTIC|VAR_ADDRESS|USER|UNIT_CONVERSION|SYSTEM_CONSTANT|SYMBOL_LINK|SUPPLIER|SUB_GROUP|SUB_FUNCTION|STEP_SIZE|STATUS_STRING_REF|SI_EXPONENTS|SIGN_EXTEND|SEGMENT|ROOT|RIGHT_SHIFT|RESERVED|REF_UNIT|REF_MEASUREMENT|REF_GROUP|REF_CHARACTERISTIC|READ_WRITE|READ_ONLY|QUANTITY|PROJECT_NO|PHYS_UNIT|PHONE_NO|OUT_MEASUREMENT|OFFSET|NUMERIC|NUMBER|NO_RESCALE_X|NO_OF_INTERFACES|MONOTONY|METHOD|MEMORY_SEGMENT|MEMORY_LAYOUT|MEASUREMENT|MAX_REFRESH|MAX_GRAD|MATRIX_DIM|MAP_LIST|LOC_MEASUREMENT|LEFT_SHIFT|LAYOUT|IN_MEASUREMENT|IF_DATA|IEEE|IDENTIFICATION|HANDLE_TEXT|GUARD_RAILS|FUNCTION_VERSION|FUNCTION_LIST|FORMULA_INV|FORMULA|FORMAT|FNC_VALUES|FIX_AXIS_PAR_LIST|FIX_AXIS_PAR_DIST|FIX_AXIS_PAR|EXTENSION|EXTENDED_LIMITS|ERROR_MASK|EPK|ECU_ADDRESS|ECU|DISPLAY_IDENTIFIER|DISCRETE|DEPOSIT|DEF_CHARACTERISTIC|DEFAULT_VALUE|DATA_SIZE|CUSTOMER_NO|CUSTOMER|CURVE_AXIS_REF|CPU_TYPE|COMPU_TAB_REF|COMB|COEFFS_LINEAR|COEFFS|CHARACTERISTIC|CALIBRATION_HANDLE|CALIBRATION_ACCESS|BYTE_ORDER|BIT_OPERATION|BIT_MASK|AXIS_RESCALE_X|AXIS_PTS_REF|AXIS_DESCR|ARRAY_SIZE|ANNOTATION_TEXT|ANNOTATION_ORIGIN|ANNOTATION_LABEL|ANNOTATION|ALIGNMENT_WORD|ALIGNMENT_LONG|ALIGNMENT_INT64|ALIGNMENT_BYTE|ADDR_EPK"
+                        },
+                        {
+                            "name": "constant.numeric",
+                            "match": "\\b0[xX][\\da-fA-F]+\\b"
+                        },
+                        {
+                            "include": "#other"
                         }
                     ]
                 }

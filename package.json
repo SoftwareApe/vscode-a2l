@@ -1,5 +1,10 @@
 {
-    "name": "a2l",
+    "name": "vscode-a2l",
+    "publisher": "SoftwareApe",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SoftwareApe/vscode-a2l.git"
+    },
     "displayName": "A2L",
     "description": "A2L language support",
     "version": "0.1.0",
