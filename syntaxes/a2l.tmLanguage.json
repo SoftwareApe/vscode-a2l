@@ -157,6 +157,10 @@
                 {
                     "name": "constant.numeric",
                     "match": "\\b0[xX][\\da-fA-F]+\\b"
+                },
+                {
+                    "name": "constant.numeric",
+                    "match": "\\b[\\+\\-]?\\d+(\\.\\d*([eE][\\+\\-]?\\d+)?)?\\b"
                 }
             ]
         }
