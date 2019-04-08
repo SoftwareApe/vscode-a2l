@@ -1,0 +1,25 @@
+{
+    "name": "a2l",
+    "displayName": "A2L",
+    "description": "A2L language support",
+    "version": "0.1.0",
+    "engines": {
+        "vscode": "^1.29.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "a2l",
+            "aliases": ["A2L", "a2l"],
+            "extensions": [".a2l"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "a2l",
+            "scopeName": "source.a2l",
+            "path": "./syntaxes/a2l.tmLanguage.json"
+        }]
+    }
+}

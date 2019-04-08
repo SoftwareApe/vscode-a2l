@@ -1,0 +1,84 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "A2L",
+    "foldingStartMarker" : "^\\s*/(?:begin|BEGIN)\\b",
+    "foldingStopMarker" : "^\\s*/(?:end|END)\\b",
+    "patterns": [
+        {
+            "include": "#keywords"
+        },
+        {
+            "include": "#strings"
+        }
+    ],
+    "repository": {
+        "keywords": {
+            "patterns": [
+                {
+                    "begin": "(/begin|BEGIN)\\s*([A-Z_]*)\\b",
+                    "end": "(/end|END)\\s*([A-Z_]*)\\b",
+                    "beginCaptures": {
+                        "1": {"name": "keyword.control.a2l"},
+                        "2": {"name": "emphasis"}
+                    },
+                    "endCaptures": {
+                        "1": {"name": "keyword.control.a2l"},
+                        "2": {"name": "emphasis"}
+                    },
+                    "patterns": [
+                        {
+                            "name": "storage.type",
+                            "match": "UBYTE|UWORD|ULONG|A_UINT64|SBYTE|SWORD|SLONG|A_INT64|FLOAT32_IEEE|FLOAT64_IEEE"
+                        },
+                        {
+                            "match": "(FORMAT) (\".*\")",
+                            "captures": {
+                                "1" : { "name": "keyword.other" },
+                                "2" : { "name": "string" }
+                            }
+                        },
+                        {
+                            "match": "(ECU_ADDRESS) ([\\dxXoOa-fA-F]*)",
+                            "captures": {
+                                "1" : { "name": "keyword.other" },
+                                "2" : { "name": "constant.numeric" }
+                            }
+                        },
+                        {
+                            "match": "(MATRIX_DIM) (\\d* \\d* \\d*)",
+                            "captures": {
+                                "1" : { "name": "keyword.other" },
+                                "2" : { "name": "constant.numeric" }
+                            }
+                        },
+                        {
+                            "match": "(ARRAY_SIZE) (\\d*)",
+                            "captures": {
+                                "1" : { "name": "keyword.other" },
+                                "2" : { "name": "constant.numeric" }
+                            }
+                        },
+                        {
+                            "include": "#strings"
+                        },
+                        {
+                            "include": "#keywords"
+                        }
+                    ]
+                }
+            ]
+        },
+        "strings": {
+            "name": "string.quoted.double.a2l",
+            "begin": "\"",
+            "end": "\"",
+            "patterns": [
+                {
+                    "name": "constant.character.escape.a2l",
+                    "match": "\\\\."
+                }
+            ]
+        }
+    },
+    "scopeName": "source.a2l"
+}
