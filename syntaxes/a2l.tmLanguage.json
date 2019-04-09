@@ -6,6 +6,9 @@
     "patterns": [
         {
             "include": "#rootlevel"
+        },
+        {
+            "include": "#comments"
         }
     ],
     "repository": {
@@ -39,6 +42,9 @@
                     "patterns": [
                         {
                             "include": "#toplevel"
+                        },
+                        {
+                            "include": "#comments"
                         }
                     ]
                 }
@@ -60,6 +66,9 @@
                     "patterns": [
                         {
                             "include": "#primary"
+                        },
+                        {
+                            "include": "#comments"
                         }
                     ]
                 }
@@ -80,11 +89,14 @@
                     },
                     "patterns": [
                         {
-                            "name": "storage.type",
-                            "match": "UBYTE|UWORD|ULONG|A_UINT64|SBYTE|SWORD|SLONG|A_INT64|FLOAT32_IEEE|FLOAT64_IEEE"
+                            "include": "#strings"
                         },
                         {
-                            "include": "#strings"
+                            "include": "#comments"
+                        },
+                        {
+                            "name": "storage.type",
+                            "match": "UBYTE|UWORD|ULONG|A_UINT64|SBYTE|SWORD|SLONG|A_INT64|FLOAT32_IEEE|FLOAT64_IEEE"
                         },
                         {
                             "include": "#keywords"
@@ -114,11 +126,14 @@
                     },
                     "patterns": [
                         {
-                            "name": "storage.type",
-                            "match": "UBYTE|UWORD|ULONG|A_UINT64|SBYTE|SWORD|SLONG|A_INT64|FLOAT32_IEEE|FLOAT64_IEEE"
+                            "include": "#strings"
                         },
                         {
-                            "include": "#strings"
+                            "include": "#comments"
+                        },
+                        {
+                            "name": "storage.type",
+                            "match": "UBYTE|UWORD|ULONG|A_UINT64|SBYTE|SWORD|SLONG|A_INT64|FLOAT32_IEEE|FLOAT64_IEEE"
                         },
                         {
                             "include": "#keywords"
@@ -130,6 +145,19 @@
                             "include": "#other"
                         }
                     ]
+                }
+            ]
+        },
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.block",
+                    "begin": "/\\*",
+                    "end": "\\*/"
+                },
+                {
+                    "name": "comment.line",
+                    "match": "//.*$"
                 }
             ]
         },

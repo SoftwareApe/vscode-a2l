@@ -8,5 +8,8 @@ Supports code folding between `/begin` and `/end` markers.
 
 ## Version history
 
+# 0.2.0
+* Comment support
+
 # 0.1.0
 * Initial release
