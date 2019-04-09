@@ -8,6 +8,9 @@ Supports code folding between `/begin` and `/end` markers.
 
 ## Version history
 
+# 0.3.0
+* A2ML syntax highlighting
+
 # 0.2.0
 * Comment support
 
